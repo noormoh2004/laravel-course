@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use Laravel\Prompts\Task;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,26 +28,11 @@ Route::post('/about', function () {
     ];
     return view('about', compact('name', 'departments'));
 });
-Route::get('tasks', function () {
-    $tasks = DB::table('tasks')->get();
-    return view('tasks', compact(var_name: 'tasks'));
-});
-Route::post('create', function () {
-    $task_name = $_POST['name'];
-    DB::table('tasks')->insert(['name' => $task_name]);
-    return redirect()->back();
-});
-Route::post('delete/{id}', function ($id) {
-    DB::table('tasks')->where('id', $id)->delete();
-    return redirect()->back();
-});
-Route::post('edit/{id}', action: function ($id) {
-    $task = DB::table('tasks')->where('id', $id)->first();
-    $tasks = DB::table('tasks')->get();
-    return view('tasks', compact('task', 'tasks'));
-});
-Route::post('update', function () {
-    $id = $_POST['id'];
-    DB::table('tasks')->where('id', '=', $id)->update(['name' => $_POST['name']]);
-    return redirect('tasks');
+Route::get('tasks', [TaskController::class, 'index']);
+Route::post('create', [TaskController::class, 'create']);
+Route::post('delete/{id}', [TaskController::class, 'destroy']);
+Route::post('edit/{id}', [TaskController::class, 'edit']);
+Route::post('update', [TaskController::class, 'update']);
+Route::get('app', function () {
+    return view('layouts.app');
 });
