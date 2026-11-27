@@ -39,8 +39,12 @@
                             <!-- Task Name -->
                             <div class="mb-3">
                                 <label for="task-name" class="form-label">Task</label>
-                                <input type="text" name="name" id="task-name" class="form-control" value="">
+                                <input type="text" name="name" id="task-name" class="form-control"
+                                    @error('name') is-invalid @enderror value="">
                             </div>
+                            @error('name')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
 
                             <!-- Add Task Button -->
                             <div>
@@ -49,6 +53,8 @@
                                 </button>
                             </div>
                         </form>
+
+
                     </div>
                 @endif
             </div>

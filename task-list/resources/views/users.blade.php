@@ -55,19 +55,22 @@
                             <!-- User Name -->
                             <div class="mb-3">
                                 <label for="user-name" class="form-label">Name</label>
-                                <input type="text" name="name" id="user-name" class="form-control" value="">
+                                <input type="text" name="name" id="user-name"
+                                    class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}">
                             </div>
 
                             <!-- User Email -->
                             <div class="mb-3">
                                 <label for="user-email" class="form-label">Email</label>
-                                <input type="email" name="email" id="user-email" class="form-control" value="">
+                                <input type="email" name="email" id="user-email"
+                                    class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}">
                             </div>
 
                             <!-- User Password -->
                             <div class="mb-3">
                                 <label for="user-password" class="form-label">Password</label>
-                                <input type="password" name="password" id="user-password" class="form-control" value="">
+                                <input type="password" name="password" id="user-password"
+                                    class="form-control @error('password') is-invalid @enderror" value="">
                             </div>
 
                             <!-- Add User Button -->
@@ -77,6 +80,16 @@
                                 </button>
                             </div>
                         </form>
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger mt-3">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                     </div>
                 @endif
             </div>
@@ -101,15 +114,13 @@
                                     <td>{{ $u->name }}</td>
                                     <td>{{ $u->email }}</td>
                                     <td>
-                                        <form action="{{ url('users/delete/' . $u->id) }}" method="POST"
-                                            class="d-inline">
+                                        <form action="{{ url('users/delete/' . $u->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             <button type="submit" class="btn btn-danger">
                                                 <i class="fa fa-trash me-2"></i>Delete
                                             </button>
                                         </form>
-                                        <form action="{{ url('users/edit/' . $u->id) }}" method="POST"
-                                            class="d-inline">
+                                        <form action="{{ url('users/edit/' . $u->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             <button type="submit" class="btn btn-info">
                                                 <i class="fa fa-info me-2"></i>Edit
